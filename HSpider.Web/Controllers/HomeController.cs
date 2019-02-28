@@ -3,22 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HSpider.Web.Models;
+using HSpider.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HSpider.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly HSpiderContext _context;
+        private readonly ISpiderService _spider;
 
-        public HomeController(HSpiderContext context)
+        public HomeController(ISpiderService spider)
         {
-            _context = context;
+            _spider = spider;
         }
 
         public IActionResult Index()
         {
-            return View();
+            List<Comic> comics = _spider.GetAllComics();
+
+            return View(comics);
         }
 
         public IActionResult Add()
@@ -29,13 +32,12 @@ namespace HSpider.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(Comic comic)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Comics.Add(comic);
-                await _context.SaveChangesAsync();
+            //if (ModelState.IsValid)
+            //{
+            //    await _spider.AddComic(comic);
 
-                return View();
-            }
+            //    return View();
+            //}
 
             return View();
         }
