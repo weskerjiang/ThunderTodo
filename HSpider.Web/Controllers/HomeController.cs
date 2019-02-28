@@ -19,7 +19,7 @@ namespace HSpider.Web.Controllers
 
         public IActionResult Index()
         {
-            List<Comic> comics = _spider.GetAllComics();
+            List<Comic> comics = _spider.GetAllComics().Where(c => c.Downloaded == 0).ToList();
 
             return View(comics);
         }
@@ -30,14 +30,14 @@ namespace HSpider.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(Comic comic)
+        public IActionResult Add(Comic comic)
         {
-            //if (ModelState.IsValid)
-            //{
-            //    await _spider.AddComic(comic);
+            if (ModelState.IsValid)
+            {
+                _spider.AddComic(comic);
 
-            //    return View();
-            //}
+                return View();
+            }
 
             return View();
         }

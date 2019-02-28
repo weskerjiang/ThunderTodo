@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using HSpider.Web.Models;
 
 namespace HSpider.Web.Services
@@ -17,7 +18,7 @@ namespace HSpider.Web.Services
         public void AddComic(Comic comic)
         {
             _context.Comic.Add(comic);
-
+            _context.SaveChanges();
         }
 
         public void DeleteComic(Comic comic)
@@ -32,7 +33,7 @@ namespace HSpider.Web.Services
 
         public Comic GetComic(int id)
         {
-            throw new NotImplementedException();
+            return _context.Comic.Find(id);
         }
 
         public void UpdateComic(Comic comic)
